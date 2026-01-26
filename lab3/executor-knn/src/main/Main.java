@@ -1,9 +1,8 @@
 package main;
 
+import data.BankMarketing;
 import java.util.Date;
 import java.util.List;
-
-import data.BankMarketing;
 import loader.BankMarketingLoader;
 import parallel.group.KnnClassifierParallelGroup;
 import serial.KnnClassifier;
@@ -12,9 +11,9 @@ public class Main {
 
     public static void main(String[] args) {
         BankMarketingLoader loader = new BankMarketingLoader();
-        List<BankMarketing> train = loader.load("executor-knn\\data\\bank.data");
+        List<BankMarketing> train = loader.load("executor-knn/data/bank.data");
         System.out.println("Train: " + train.size());
-        List<BankMarketing> test = loader.load("executor-knn\\data\\bank.test");
+        List<BankMarketing> test = loader.load("executor-knn/data/bank.test");
         System.out.println("Test: " + test.size());
 
         int k = 10;
@@ -55,7 +54,9 @@ public class Main {
         System.out.println("Average Serial Run Time: " + serialRun);
 
 
-        //TODO: Compute the speed up for the two versions of parallel run (with and without parallel sorting)
+        // DONE: Compute the speed up for the two versions of parallel run (with and without parallel sorting)
+        System.out.println("Speedup Parallel (without sorting): " + (serialRun / parallelRun));
+        System.out.println("Speedup Parallel (with sorting): " + (serialRun / parallelRunWithSorting));
 
     }
 
