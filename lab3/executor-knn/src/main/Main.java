@@ -16,8 +16,8 @@ public class Main {
         List<BankMarketing> test = loader.load("executor-knn/data/bank.test");
         System.out.println("Test: " + test.size());
 
-        int k = 10;
-        final int RUNS = 1;
+        int k = 40;
+        final int RUNS = 5;
         double parallelRun = 0d, parallelRunWithSorting = 0d, serialRun = 0d;
 
         // Parallel run without parallel sorting
