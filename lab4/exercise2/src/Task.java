@@ -1,4 +1,5 @@
-public class Task extends RecursiveTask<Object><Integer> {
+import java.util.concurrent.RecursiveTask;
+public class Task extends RecursiveTask<Integer> {
 
     int[] array;
     int threshold;
@@ -14,12 +15,15 @@ public class Task extends RecursiveTask<Object><Integer> {
 
     protected Integer compute() {
         if (last - first < threshold) {
-            // TODO: Add your code here to do the task directly
+            return calculate();
         } else {
             int middle = (last + first) / 2;
-            // TODO: Add your code here to divide the task into two smaller tasks
-            // TODO: Add your code here to invoke the two tasks and wait for the results
-            return t1.join() + t2.join();
+            Task t1 = new Task(array, first, middle, threshold);
+            Task t2 = new Task(array, middle, last, threshold);
+            t1.fork();
+            int right = t2.compute();
+            int left = t1.join();
+            return left + right;
         }
     }
 

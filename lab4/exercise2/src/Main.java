@@ -1,5 +1,6 @@
 
 import java.util.Random;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     static final int SIZE = 10_000_000;
@@ -15,17 +16,32 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int threshold = Integer.parseInt(args[0]);
+        // Added command line argument handling
+        if (args.length < 2) {
+        System.err.println("Usage: java Main <threshold> <parallel_level>");
+        System.exit(2);
+        }
+
+        int threshold;
+        int paral_level;
+
+        try {
+            threshold = Integer.parseInt(args[0]);
+            paral_level = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            System.err.println("Usage: java Main <threshold> <parallel_level>  (both integers)");
+            System.exit(2);
+            return;
+        }
         // threshold indicates the threshold based on which
         // ...you decide if a task is to be subdivided or not
-        int paral_level = Integer.parseInt(args[1]);
         // paral_level indicates how many tasks can be run in parallel
-        // TODO: Add your code here to get the number of processors
-        // and store this number in the variable named num_of_proccessors
+        int num_of_proccesors = Runtime.getRuntime().availableProcessors();
+
         long startTime = System.currentTimeMillis();
         Task mainTask = new Task(array, 0, SIZE, threshold);
-        // TODO: Add your code here to create the ForkJoin pool
-        // with the parallel level paral_level passed from users.
+        ForkJoinPool pool = new ForkJoinPool(paral_level);
+
         Integer numberOfEvenNumber = pool.invoke(mainTask);
         long endTime = System.currentTimeMillis();
         System.out.println("Threshold: " + threshold + " - Parallel level: " +
