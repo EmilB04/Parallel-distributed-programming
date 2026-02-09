@@ -1,11 +1,10 @@
 package parallel;
 
-import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.RecursiveTask;
 
 public class VectorVectorMulTask extends RecursiveTask<Integer> {
 
-    public static final int THRESHOlD = 10;
+    public static final int THRESHOLD = 10;
     private int[] vector1;
     private int[] vector2;
     private int start;
@@ -18,8 +17,27 @@ public class VectorVectorMulTask extends RecursiveTask<Integer> {
     }
     @Override
     protected Integer compute() {
-        // TODO: Your code for parallel task
-        // check data size to see if the task can perform job or task should be further split up
-        return 0;
+        // end is treated as inclusive.
+        if (end < start) {
+            return 0;
+        }
+
+        int size = end - start + 1;
+        if (size <= THRESHOLD) {
+            int sum = 0;
+            for (int i = start; i <= end; i++) {
+                sum += vector1[i] * vector2[i];
+            }
+            return sum;
+        }
+
+        int mid = start + (end - start) / 2;
+        VectorVectorMulTask left = new VectorVectorMulTask(vector1, vector2, start, mid);
+        VectorVectorMulTask right = new VectorVectorMulTask(vector1, vector2, mid + 1, end);
+
+        left.fork();
+        int rightResult = right.compute();
+        int leftResult = left.join();
+        return leftResult + rightResult;
     }
 }
