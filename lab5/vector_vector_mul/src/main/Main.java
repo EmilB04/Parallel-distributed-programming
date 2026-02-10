@@ -10,16 +10,13 @@ public class Main {
         int[] vectorA = arrayGen(N);
         int[] vectorB = arrayGen(N);
 
-        // TODO: Your code to calculate serial running time
         VectorVectorMulSerial serialTask = new VectorVectorMulSerial();
-
         long serialStart = System.nanoTime();
         int serialResult = serialTask.multiSerial(vectorA, vectorB);
         long serialEnd = System.nanoTime();
         long serialTime = serialEnd - serialStart;
         System.out.println("Serial program returns " + serialResult + " during " + serialTime + " (ns)");
 
-        // TODO: Your code to calculate parallel running time
         VectorVectorMulParallel parallelTask = new VectorVectorMulParallel();
         long parallelStart = System.nanoTime();
         int parallelResult = parallelTask.multiParallel(vectorA, vectorB);
@@ -27,7 +24,6 @@ public class Main {
         long parallelTime = parallelEnd - parallelStart;
         System.out.println("Parallel program returns " + parallelResult + " during " + parallelTime + " (ns)");
 
-        // TODO: Your code to calculate speedup
 
         if (parallelTime > 0) {
             double speedup = (double) serialTime / (double) parallelTime;

@@ -10,7 +10,8 @@ public class MatrixMatrixMulTask extends RecursiveAction {
     private int[][] matrix2;
     private int startRow, endRow;
     private int[][] result;
-    private int threshold = 1_000; // You can modify this variable
+    // Cutoff in number of rows for sequential work (tune as needed)
+    private int threshold = 32;
 
     public MatrixMatrixMulTask(int[][] matrix1, int[][] matrix2, int startRow, int endRow, int[][] result) {
         this.matrix1 = matrix1;
@@ -20,9 +21,32 @@ public class MatrixMatrixMulTask extends RecursiveAction {
         this.result = result;
     }
 
+    @Override
     protected void compute() {
-        // TODO: Your code for parallel task
-        // check data size to see if the task can perform job or task should be further split up
+        int rows = endRow - startRow;
+        if (rows <= 0) {
+            return;
+        }
+
+        if (rows <= threshold) {
+            int m = matrix2.length;
+            int p = matrix2[0].length;
+
+            for (int i = startRow; i < endRow; i++) {
+                for (int k = 0; k < m; k++) {
+                    int a = matrix1[i][k];
+                    for (int j = 0; j < p; j++) {
+                        result[i][j] += a * matrix2[k][j];
+                    }
+                }
+            }
+            return;
+        }
+
+        int mid = startRow + rows / 2;
+        MatrixMatrixMulTask left = new MatrixMatrixMulTask(matrix1, matrix2, startRow, mid, result);
+        MatrixMatrixMulTask right = new MatrixMatrixMulTask(matrix1, matrix2, mid, endRow, result);
+        invokeAll(left, right);
 
     }
 }
