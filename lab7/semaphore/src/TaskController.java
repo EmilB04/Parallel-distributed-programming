@@ -1,0 +1,15 @@
+import java.util.Date;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+public class TaskController {
+    public static void Task() {
+        long duration = ThreadLocalRandom.current().nextLong(10);
+        System.out.printf("Date: "+ new Date() + " %s: Working %d seconds\n",Thread.currentThread().getName(),duration);
+        try {
+            TimeUnit.SECONDS.sleep(duration);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//		System.out.printf("Date: "+ new Date() + " %s: Finished\n",Thread.currentThread().getName());
+    }
+}
