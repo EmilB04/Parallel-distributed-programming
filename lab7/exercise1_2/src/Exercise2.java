@@ -1,46 +1,36 @@
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Semaphore;
 
 public class Exercise2 {
 
-    private final ReentrantLock lock = new ReentrantLock();
-    private final Condition condition = lock.newCondition();
-    private int turn = 2; // 1 for TaskA, 2 for TaskB (initial state)
+    private final Semaphore semaphoreA = new Semaphore(0); // TaskA waits initially
+    private final Semaphore semaphoreB = new Semaphore(1); // TaskB can start first
 
     public void doTaskA() {
-        lock.lock();
-        try {
-            // Wait until turn is 1 (TaskB has finished)
-            while (turn != 1) {
-                condition.await();
+        for (int i = 0; i < 3; i++) {
+            try {
+                // Wait for TaskB to signal
+                semaphoreA.acquire();
+                System.out.print("Debugging begins in 3... 2... 1...\n");
+                // Signal TaskB to continue
+                semaphoreB.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            System.out.print("Debugging begins in 3... 2... 1...\n");
-            // Signal that TaskA is done
-            turn = 2;
-            condition.signalAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            lock.unlock();
         }
     }
 
     public void doTaskB() {
-        lock.lock();
-        try {
-            // Wait until turn is 2 (initial state)
-            while (turn != 2) {
-                condition.await();
+        for (int i = 0; i < 3; i++) {
+            try {
+                // Wait for our turn (initially available)
+                semaphoreB.acquire();
+                System.out.print("Welcome to the world of programming. ");
+                // Signal TaskA to proceed
+                semaphoreA.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            System.out.print("Welcome to the world of programming. ");
-            // Set turn to 1 to allow TaskA to proceed
-            turn = 1;
-            condition.signalAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            lock.unlock();
         }
     }
 
@@ -54,9 +44,7 @@ public class Exercise2 {
         @Override
         public void run() {
             // DONE: Your code to implement TaskA
-            for (int i = 0; i < 3; i++) {
-                controller.doTaskA();
-            }
+            controller.doTaskA();
         }
     }
 
@@ -70,9 +58,7 @@ public class Exercise2 {
         @Override
         public void run() {
             // DONE: Your code to implement TaskB
-            for (int i = 0; i < 3; i++) {
-                controller.doTaskB();
-            }
+            controller.doTaskB();
         }
 
         public static void main(String[] args) throws InterruptedException {
