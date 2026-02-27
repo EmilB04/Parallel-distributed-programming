@@ -7,6 +7,7 @@ public class Participant implements Runnable {
         this.name=name;
     }
 
+    @Override
     public void run() {
         Long duration=(long)(Math.random()*10);
         try {
