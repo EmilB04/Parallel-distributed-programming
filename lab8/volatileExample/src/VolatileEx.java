@@ -22,11 +22,13 @@ public class VolatileEx extends Thread {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        for (int i = 0; i < 5; i ++){
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < 5; i++) {
             VolatileEx thread = new VolatileEx();
             thread.start();
             thread.stopRunning();
         }
-
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
     }
 }
