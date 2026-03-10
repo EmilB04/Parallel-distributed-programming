@@ -11,7 +11,9 @@ public class DeadlockLock {
         T1.start();
         T2.start();
     }
+
     private static class Thread1 extends Thread {
+        @Override
         public void run() {
             lock1.lock();
             System.out.println("Thread 1: Holds lock1.");
@@ -32,10 +34,11 @@ public class DeadlockLock {
     }
 
     private static class Thread2 extends Thread {
+        @Override
         public void run() {
-            lock2.lock();
-            System.out.println("Thread 2: Holds lock2.");
             lock1.lock();
+            System.out.println("Thread 2: Holds lock2.");
+            lock2.lock();
             System.out.println("Thread 2: Holds lock1.");
 
             try {

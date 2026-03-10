@@ -20,7 +20,7 @@ public class Operations {
 
     public static void processData(){
         try {
-            TimeUnit.SECONDS.sleep(30);
+            TimeUnit.MILLISECONDS.sleep(30);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
