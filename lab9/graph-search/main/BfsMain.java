@@ -1,13 +1,15 @@
 package main;
+import bfs_parallel.ParallelBreadthFirstSearch;
+import bfs_serial.*;
 import tree.Tree;
 import utils.Utils;
-import bfs_serial.*;
 
 public class BfsMain {
     public static void main(String[] args) {
         int RUNS = 1;
         long startTime, endTime;
-        SerialBreadthFirstSearch serialBreathFirstSearch = new SerialBreadthFirstSearch();
+        SerialBreadthFirstSearch serialBreadthFirstSearch = new SerialBreadthFirstSearch();
+        ParallelBreadthFirstSearch parallelBreadthFirstSearch = new ParallelBreadthFirstSearch();
 
         System.out.println("BFS: Generating tree...");
         Tree tree = Utils.generateTree(10, 1000);
@@ -19,15 +21,19 @@ public class BfsMain {
             // if your tree is too small, you should measure execution time in microsecond to avoid zero running time and Infinitive speedup,
             // change this method accordingly
             startTime = System.currentTimeMillis();
-            serialBreathFirstSearch.serialBFS(tree.getRoot());
+            serialBreadthFirstSearch.serialBFS(tree.getRoot());
             endTime = System.currentTimeMillis();
             System.out.println("Serial version took " + (endTime - startTime) + " miliseconds");
 
             //Clear the visit flag
             tree.unvisit();
-            //TODO: Implement parallel BFS here
+
+            // Parallel BFS
             System.out.println("Running Parallel BFS...");
-            System.out.println("Parallel version took ... miliseconds");
+            startTime = System.currentTimeMillis();
+            parallelBreadthFirstSearch.parallelBFS(tree.getRoot());
+            endTime = System.currentTimeMillis();
+            System.out.println("Parallel version took " + (endTime - startTime) + " miliseconds");
 
             //TODO: Compute speedup for each run
 

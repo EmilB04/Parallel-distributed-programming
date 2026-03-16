@@ -14,13 +14,14 @@ public class ParallelBreadthFirstSearch {
         }
 
         ConcurrentLinkedQueue<TreeNode> queue = new ConcurrentLinkedQueue<>();
+        ConcurrentLinkedQueue<String> visitedList = new ConcurrentLinkedQueue<>();
         queue.add(root);
 
         int numTasks = Runtime.getRuntime().availableProcessors();
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numTasks);
 
         for (int i = 0; i < numTasks; i++) {
-            executor.submit(new BreadthFirstSearchTask(queue));
+            executor.submit(new BreadthFirstSearchTask(queue, visitedList));
         }
 
         executor.shutdown();
@@ -30,6 +31,9 @@ public class ParallelBreadthFirstSearch {
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Parallel BFS interrupted", e);
         }
+        
+        // Print the visiting list
+        System.out.println("\nVisiting order: " + visitedList);
     }
 
     public static void main(String[] args) {
