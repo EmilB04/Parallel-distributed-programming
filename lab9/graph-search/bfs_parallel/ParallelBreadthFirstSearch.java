@@ -31,9 +31,6 @@ public class ParallelBreadthFirstSearch {
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Parallel BFS interrupted", e);
         }
-        
-        // Print the visiting list
-        System.out.println("\nVisiting order: " + visitedList);
     }
 
     public static void main(String[] args) {
