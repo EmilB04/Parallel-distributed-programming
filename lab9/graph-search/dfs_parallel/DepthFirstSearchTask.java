@@ -1,24 +1,33 @@
 package dfs_parallel;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import tree.Tree;
 import tree.TreeNode;
-import dfs_serial.SerialDepthFirstSearch;
 
 public class DepthFirstSearchTask implements Runnable{
 
 
     private ConcurrentLinkedQueue<TreeNode> nodes;
+    private List<Integer> visitOrder;
 
-
-    public DepthFirstSearchTask(ConcurrentLinkedQueue<TreeNode> nodes) {
+    public DepthFirstSearchTask(ConcurrentLinkedQueue<TreeNode> nodes, List<Integer> visitOrder) {
         this.nodes = nodes;
+        this.visitOrder = visitOrder;
     }
 
+    @Override
     public void run() {
-        // TODO: Implement parallel DFS task here
-
+        while (!nodes.isEmpty()) {
+            TreeNode node = nodes.poll();
+            if (node != null && !node.isVisited()) {
+                node.visit();
+                // record visit order (thread-safe list provided by caller)
+                visitOrder.add(node.getId());
+                for (TreeNode child : node.getChildren()) {
+                    nodes.add(child);
+                }
+            }
+        }
     }
 
 }

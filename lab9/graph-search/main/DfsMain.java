@@ -1,14 +1,16 @@
 package main;
 
+import dfs_parallel.*;
+import dfs_serial.*;
 import tree.Tree;
 import utils.Utils;
-import dfs_serial.*;
-import dfs_parallel.*;
 
 public class DfsMain {
     public static void main(String[] args) {
-        int RUNS = 10;
+        int RUNS = 1;
         long startTime, endTime;
+        long serialTotal = 0;
+        long parallelTotal = 0;
         SerialDepthFirstSearch serialDepthFirstSearch = new SerialDepthFirstSearch();
         ParallelDepthFirstSearch parallelDepthFirstSearch = new ParallelDepthFirstSearch();
 
@@ -21,21 +23,42 @@ public class DfsMain {
             System.out.println("Running Serial DFS...");
             // if your tree is too small, you should measure execution time in microsecond to avoid zero running time and Infinitive speedup,
             // change this method accordingly
+            serialDepthFirstSearch.resetVisitOrder();
             startTime = System.currentTimeMillis();
             serialDepthFirstSearch.serialDFS(tree.getRoot());
             endTime = System.currentTimeMillis();
-            System.out.println("Serial version took " + (endTime - startTime) + " miliseconds");
+            long serialTime = endTime - startTime;
+            serialTotal += serialTime;
+            System.out.println("Serial version took " + serialTime + " miliseconds");
+            System.out.println("Serial visiting order: " + serialDepthFirstSearch.getVisitOrder());
 
             // Clear the visit flag
             tree.unvisit();
 
             //TODO: Implement parallel DFS here
             System.out.println("Running Parallel DFS...");
-            System.out.println("Parallel version took ... miliseconds");
+            parallelDepthFirstSearch.resetVisitOrder();
+            startTime = System.currentTimeMillis();
+            parallelDepthFirstSearch.parallelDFS(tree.getRoot());
+            endTime = System.currentTimeMillis();
+            long parallelTime = endTime - startTime;
+            parallelTotal += parallelTime;
+            System.out.println("Parallel version took " + parallelTime + " miliseconds");
+            System.out.println("Parallel visiting order: " + parallelDepthFirstSearch.getVisitOrder());
 
             // Clear the visit flag
             tree.unvisit();
         }
-        //TODO: Compute speedup
+        // Compute average times and speedup
+        double avgSerial = (double) serialTotal / (double) RUNS;
+        double avgParallel = (double) parallelTotal / (double) RUNS;
+        if (avgParallel > 0) {
+            double speedup = avgSerial / avgParallel;
+            System.out.println("Average serial time: " + avgSerial + " ms");
+            System.out.println("Average parallel time: " + avgParallel + " ms");
+            System.out.println("Speedup (serial/parallel): " + speedup);
+        } else {
+            System.out.println("Average parallel time is zero, cannot compute speedup.");
+        }
     }
 }
