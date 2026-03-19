@@ -19,17 +19,25 @@ public class Echo{
         Random random = new Random(20261203);
         int data[]=new int[1];
 
-        for(int i = 0; i <= 20; i++){
-            if(me==0){
-                data[0]=random.nextInt(100);
-                MPI.COMM_WORLD.Send(data,0,1,MPI.INT,1,10);
-                System.out.println("Process "+me+" sends number "+data[0]+" to Process 1");
-            }
-            else {
-                MPI.COMM_WORLD.Recv(data,0,1,MPI.INT,0,10);
-                System.out.println("Process "+me+" receives number "+data[0]+" from Process 0");
+        // Process 0 sends 5 messages to Process 1
+        int numMessages = 5;
+        
+        if(me==0){
+            System.out.println("\n=== Process 0: Sending " + numMessages + " messages ===");
+            for(int i = 1; i <= numMessages; i++){
+                data[0] = random.nextInt(100);
+                MPI.COMM_WORLD.Send(data, 0, 1, MPI.INT, 1, 10);
+                System.out.println("  Message " + i + ": Sending number " + data[0] + " to Process 1");
             }
         }
+        else {
+            System.out.println("\n=== Process 1: Waiting to receive " + numMessages + " messages ===");
+            for(int i = 1; i <= numMessages; i++){
+                MPI.COMM_WORLD.Recv(data, 0, 1, MPI.INT, 0, 10);
+                System.out.println("  Message " + i + ": Received number " + data[0] + " from Process 0");
+            }
+        }
+        
         MPI.Finalize();
     }
 }
