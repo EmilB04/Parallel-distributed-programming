@@ -1,0 +1,80 @@
+===== np=1 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 1
+Start Time = 1774267897,000000
+End Time = 1774267900,000000
+Running Time = 3,000000
+===== np=2 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 2
+Start Time = 1774267900,000000
+End Time = 1774267901,000000
+Running Time = 1,000000
+===== np=3 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 3
+Start Time = 1774267901,000000
+End Time = 1774267902,000000
+Running Time = 1,000000
+===== np=4 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 4
+Start Time = 1774267902,000000
+End Time = 1774267904,000000
+Running Time = 2,000000
+===== np=5 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 5
+Start Time = 1774267904,000000
+End Time = 1774267905,000000
+Running Time = 1,000000
+===== np=6 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 6
+Start Time = 1774267905,000000
+End Time = 1774267906,000000
+Running Time = 1,000000
+===== np=7 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 7
+Start Time = 1774267906,000000
+End Time = 1774267907,000000
+Running Time = 1,000000
+===== np=8 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 8
+Start Time = 1774267907,000000
+End Time = 1774267908,000000
+Running Time = 1,000000
+===== np=9 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 9
+Start Time = 1774267908,000000
+End Time = 1774267909,000000
+Running Time = 1,000000
+===== np=10 =====
+MPJ Express (0.44) is started in the multicore configuration
+Matrix-Matrix multiplication
+Square matrix size: 1500x1500
+Number of processes: 10
+Start Time = 1774267909,000000
+End Time = 1774267910,000000
+Running Time = 1,000000
