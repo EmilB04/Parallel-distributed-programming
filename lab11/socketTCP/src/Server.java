@@ -1,5 +1,5 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
 
 public class Server extends Thread {
     private ServerSocket serverSocket;
