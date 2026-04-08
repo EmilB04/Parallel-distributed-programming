@@ -1,16 +1,14 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 public class Server {
     public static void main(String[] args) {
         try {
-            int server_port = 9000;
+            int server_port = 9802;
             DatagramSocket serverSocket = new DatagramSocket(server_port);
             System.out.println("Waiting for client on port " + server_port);
-            byte[] receiveData = new byte[10];
+            byte[] receiveData = new byte[11];
             while (true) {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);

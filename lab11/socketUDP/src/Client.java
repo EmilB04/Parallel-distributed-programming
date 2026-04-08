@@ -1,15 +1,13 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
         try {
             DatagramSocket clientSocket = new DatagramSocket();
             InetAddress IPAddress = InetAddress.getByName("localhost");
-            int port = 9000;
+            int port = 9802;
 
 
             String sentence = "Hello world";
